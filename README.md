@@ -34,7 +34,52 @@ Backend para la gestión de:
 ### 1. Preparación de la Base de Datos
 El sistema requiere una base de datos en PostgreSQL.
 
-### 2. Ejecución de la Aplicación
+<!-- Documentar sobre los perfiles creados -->
+### 2. Descargar o clonar el proyecto
 ```bash
-./mvnw spring-boot:run
+git clone <url-del-repositorio>
 ```
+
+### 3. Configuración de las variables de entorno
+
+Se tiene un archivo `.env.example` en la raíz del proyecto que contiene las variables de entorno que se deben configurar.
+
+Este proyecto ha sido desarrollado en Google Antigravity donde nos ofrece poder configurar variables de entorno en archivos .env y poder usar dichas variables en la ejecución de la aplicación (Lo mismo en Vscode), a continuación se muestra los pasos para configurarlo en Google Antigravity.
+
+* Crear los archivos `.env.dev` y `.env.prod` en la raíz del proyecto con el contenido que se encuentra en el archivo `.env.example`.
+
+* Configurar el archivo `launch.json` ubicados en la caperta `.vscode` para poder ejecutar la aplicación con las variables de entorno configuradas.
+
+    ```json
+    {
+        "version": "0.2.0",
+        "configurations": [
+            {
+                "type": "java",
+                "name": "Spring Boot (DEV)",
+                "request": "launch",
+                "cwd": "${workspaceFolder}",
+                "mainClass": "com.merklys.api.ApiApplication",
+                "projectName": "api",
+                "args": "--spring.profiles.active=dev",
+                "envFile": "${workspaceFolder}/.env.dev"
+            },
+
+            {
+                "type": "java",
+                "name": "Spring Boot (PROD)",
+                "request": "launch",
+                "cwd": "${workspaceFolder}",
+                "mainClass": "com.merklys.api.ApiApplication",
+                "projectName": "api",
+                "args": "--spring.profiles.active=prod",
+                "envFile": "${workspaceFolder}/.env.prod"
+            }
+        ]
+    }
+    ```
+
+### 4. Ejecución de la Aplicación
+
+Se puede ejecutar la aplicación desde Google Antigravity o Vscode seleccionando la opción Run and Debug y seleccionando la opción Spring Boot (DEV) o Spring Boot (PROD).
+
