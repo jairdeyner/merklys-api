@@ -6,9 +6,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import com.merklys.api.common.response.ErrorResponse;
 import com.merklys.api.common.response.ErrorResponse.ValidationError;
@@ -29,6 +31,30 @@ public class GlobalExceptionHandler {
                         HttpStatus.NOT_FOUND.value(),
                         HttpStatus.NOT_FOUND.getReasonPhrase(),
                         ex.getMessage(),
+                        request.getRequestURI()));
+    }
+
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseEntity<ErrorResponse> handleNoResourceFound(NoResourceFoundException ex,
+            HttpServletRequest request) {
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(ErrorResponse.of(
+                        HttpStatus.NOT_FOUND.value(),
+                        HttpStatus.NOT_FOUND.getReasonPhrase(),
+                        "Recurso no encontrado",
+                        request.getRequestURI()));
+    }
+
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ResponseEntity<ErrorResponse> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex,
+            HttpServletRequest request) {
+        return ResponseEntity
+                .status(HttpStatus.METHOD_NOT_ALLOWED)
+                .body(ErrorResponse.of(
+                        HttpStatus.METHOD_NOT_ALLOWED.value(),
+                        HttpStatus.METHOD_NOT_ALLOWED.getReasonPhrase(),
+                        "Método " + ex.getMethod() + " no permitido para esta ruta",
                         request.getRequestURI()));
     }
 
