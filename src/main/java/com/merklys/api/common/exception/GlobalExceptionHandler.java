@@ -6,6 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -67,6 +70,42 @@ public class GlobalExceptionHandler {
                         HttpStatus.CONFLICT.value(),
                         HttpStatus.CONFLICT.getReasonPhrase(),
                         ex.getMessage(),
+                        request.getRequestURI()));
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<ErrorResponse> handleBadCredentials(BadCredentialsException ex,
+            HttpServletRequest request) {
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(ErrorResponse.of(
+                        HttpStatus.UNAUTHORIZED.value(),
+                        HttpStatus.UNAUTHORIZED.getReasonPhrase(),
+                        "Credenciales inválidas",
+                        request.getRequestURI()));
+    }
+
+    @ExceptionHandler(DisabledException.class)
+    public ResponseEntity<ErrorResponse> handleDisabled(DisabledException ex,
+            HttpServletRequest request) {
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body(ErrorResponse.of(
+                        HttpStatus.FORBIDDEN.value(),
+                        HttpStatus.FORBIDDEN.getReasonPhrase(),
+                        "Cuenta deshabilitada",
+                        request.getRequestURI()));
+    }
+
+    @ExceptionHandler(LockedException.class)
+    public ResponseEntity<ErrorResponse> handleLocked(LockedException ex,
+            HttpServletRequest request) {
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body(ErrorResponse.of(
+                        HttpStatus.FORBIDDEN.value(),
+                        HttpStatus.FORBIDDEN.getReasonPhrase(),
+                        "Cuenta bloqueada",
                         request.getRequestURI()));
     }
 
