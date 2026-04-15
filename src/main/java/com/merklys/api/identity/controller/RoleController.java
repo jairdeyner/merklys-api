@@ -1,4 +1,4 @@
-package com.merklys.api.auth.controller;
+package com.merklys.api.identity.controller;
 
 import java.net.URI;
 import java.util.List;
@@ -8,9 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.merklys.api.auth.dto.request.RoleRequest;
-import com.merklys.api.auth.dto.response.RoleResponse;
-import com.merklys.api.auth.service.RoleService;
+import com.merklys.api.identity.dto.request.RoleRequest;
+import com.merklys.api.identity.dto.response.RoleResponse;
+import com.merklys.api.identity.service.RoleService;
 
 import jakarta.validation.Valid;
 

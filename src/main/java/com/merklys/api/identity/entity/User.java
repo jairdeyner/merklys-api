@@ -1,4 +1,4 @@
-package com.merklys.api.auth.entity;
+package com.merklys.api.identity.entity;
 
 import java.time.Instant;
 import java.util.HashSet;

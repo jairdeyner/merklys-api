@@ -1,18 +1,18 @@
-package com.merklys.api.auth.service.impl;
+package com.merklys.api.identity.service.impl;
 
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.merklys.api.auth.dto.request.RoleRequest;
-import com.merklys.api.auth.dto.response.RoleResponse;
-import com.merklys.api.auth.entity.Role;
-import com.merklys.api.auth.mapper.RoleMapper;
-import com.merklys.api.auth.repository.RoleRepository;
-import com.merklys.api.auth.service.RoleService;
 import com.merklys.api.common.exception.DuplicateResourceException;
 import com.merklys.api.common.exception.ResourceNotFoundException;
+import com.merklys.api.identity.dto.request.RoleRequest;
+import com.merklys.api.identity.dto.response.RoleResponse;
+import com.merklys.api.identity.entity.Role;
+import com.merklys.api.identity.mapper.RoleMapper;
+import com.merklys.api.identity.repository.RoleRepository;
+import com.merklys.api.identity.service.RoleService;
 
 @Service
 public class RoleServiceImpl implements RoleService {

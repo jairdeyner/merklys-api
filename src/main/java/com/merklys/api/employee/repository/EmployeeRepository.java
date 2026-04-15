@@ -1,8 +1,8 @@
-package com.merklys.api.auth.repository;
+package com.merklys.api.employee.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.merklys.api.auth.entity.Employee;
+import com.merklys.api.employee.entity.Employee;
 
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 

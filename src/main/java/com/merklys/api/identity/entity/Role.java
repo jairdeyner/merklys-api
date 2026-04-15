@@ -1,4 +1,4 @@
-package com.merklys.api.auth.entity;
+package com.merklys.api.identity.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

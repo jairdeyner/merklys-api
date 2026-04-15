@@ -1,4 +1,4 @@
-package com.merklys.api.auth.dto.response;
+package com.merklys.api.identity.dto.response;
 
 public record RoleResponse(Long id, String name) {
 

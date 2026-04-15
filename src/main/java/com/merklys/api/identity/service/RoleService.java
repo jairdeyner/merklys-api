@@ -1,9 +1,9 @@
-package com.merklys.api.auth.service;
+package com.merklys.api.identity.service;
 
 import java.util.List;
 
-import com.merklys.api.auth.dto.request.RoleRequest;
-import com.merklys.api.auth.dto.response.RoleResponse;
+import com.merklys.api.identity.dto.request.RoleRequest;
+import com.merklys.api.identity.dto.response.RoleResponse;
 
 public interface RoleService {
     List<RoleResponse> findAll();

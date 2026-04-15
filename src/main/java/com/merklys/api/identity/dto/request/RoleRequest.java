@@ -1,4 +1,4 @@
-package com.merklys.api.auth.dto.request;
+package com.merklys.api.identity.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

@@ -1,4 +1,4 @@
-package com.merklys.api.auth.service.impl;
+package com.merklys.api.identity.service.impl;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -11,8 +11,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.merklys.api.auth.entity.User;
-import com.merklys.api.auth.repository.UserRepository;
+import com.merklys.api.identity.entity.User;
+import com.merklys.api.identity.repository.UserRepository;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {

@@ -1,4 +1,4 @@
-package com.merklys.api.auth.repository;
+package com.merklys.api.identity.repository;
 
 import java.util.Optional;
 
@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.merklys.api.auth.entity.User;
+import com.merklys.api.identity.entity.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
