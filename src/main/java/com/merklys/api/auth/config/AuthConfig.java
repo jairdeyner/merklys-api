@@ -1,0 +1,12 @@
+package com.merklys.api.auth.config;
+
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
+
+import com.merklys.api.auth.jwt.JwtProperties;
+
+@Configuration
+@EnableConfigurationProperties({ JwtProperties.class })
+public class AuthConfig {
+
+}
