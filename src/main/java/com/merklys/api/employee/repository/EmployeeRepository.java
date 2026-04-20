@@ -6,4 +6,6 @@ import com.merklys.api.employee.entity.Employee;
 
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
+    boolean existsByDni(String dni);
+
 }

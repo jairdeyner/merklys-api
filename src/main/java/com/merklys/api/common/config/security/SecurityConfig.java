@@ -47,6 +47,7 @@ public class SecurityConfig {
 
                         .requestMatchers("/api/v1/roles/**").authenticated()
                         .requestMatchers("/api/v1/users/**").authenticated()
+                        .requestMatchers("/api/v1/employees/**").authenticated()
 
                         .anyRequest().denyAll())
                 .exceptionHandling(ex -> ex
