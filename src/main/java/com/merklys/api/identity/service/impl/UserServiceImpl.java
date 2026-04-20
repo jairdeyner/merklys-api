@@ -17,6 +17,12 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public User findByIdWithRoles(Long userId) {
+        return this.userRepository.findByIdWithRoles(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado con el id: " + userId));
+    }
 
     @Override
     @Transactional(readOnly = true)

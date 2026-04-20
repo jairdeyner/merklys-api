@@ -9,11 +9,12 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextHolderStrategy;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
+
+import com.merklys.api.auth.security.CustomUserDetailsService;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -27,16 +28,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtTokenProvider jwtTokenProvider;
     private final JwtProperties jwtProperties;
-    private final UserDetailsService userdetailsservice;
+    private final CustomUserDetailsService customUserDetailsService;
 
     private final SecurityContextHolderStrategy securityContextHolderStrategy = SecurityContextHolder
             .getContextHolderStrategy();
 
     public JwtAuthenticationFilter(JwtTokenProvider jwtTokenProvider, JwtProperties jwtProperties,
-            UserDetailsService userdetailsservice) {
+            CustomUserDetailsService customUserDetailsService) {
         this.jwtTokenProvider = jwtTokenProvider;
         this.jwtProperties = jwtProperties;
-        this.userdetailsservice = userdetailsservice;
+        this.customUserDetailsService = customUserDetailsService;
     }
 
     @Override
@@ -65,12 +66,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private void authenticateRequest(String token, HttpServletRequest request) {
         try {
-            String username = this.jwtTokenProvider.getUsernameFromToken(token);
+            Long userId = this.jwtTokenProvider.getUserIdFromToken(token);
 
-            UserDetails userDetails = this.userdetailsservice.loadUserByUsername(username);
+            UserDetails userDetails = this.customUserDetailsService.loadUserById(userId);
 
             if (!userDetails.isEnabled() || !userDetails.isAccountNonLocked()) {
-                log.warn("Usuario inactivo o bloqueado intentó autenticarse: {}", username);
+                log.warn("Usuario inactivo o bloqueado intentó autenticarse: {}", userDetails.getUsername());
                 return;
             }
 

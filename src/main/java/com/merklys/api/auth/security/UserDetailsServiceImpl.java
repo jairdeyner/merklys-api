@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +14,7 @@ import com.merklys.api.identity.entity.User;
 import com.merklys.api.identity.service.UserService;
 
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService {
+public class UserDetailsServiceImpl implements CustomUserDetailsService {
 
     private final UserService userService;
 
@@ -34,6 +33,17 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new UsernameNotFoundException("Credenciales inválidas");
         }
 
+    }
+
+    @Override
+    public UserDetails loadUserById(Long userId) throws UsernameNotFoundException {
+        try {
+            User user = this.userService.findByIdWithRoles(userId);
+
+            return this.buildUserDetails(user);
+        } catch (ResourceNotFoundException ex) {
+            throw new UsernameNotFoundException("Credenciales inválidas");
+        }
     }
 
     private UserDetails buildUserDetails(User user) {
