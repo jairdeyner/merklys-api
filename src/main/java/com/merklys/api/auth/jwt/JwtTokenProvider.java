@@ -14,6 +14,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
+import com.merklys.api.auth.security.CustomUserDetails;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.IncorrectClaimException;
@@ -29,6 +31,7 @@ public class JwtTokenProvider {
 
     private static final Logger log = LoggerFactory.getLogger(JwtTokenProvider.class);
     private static final String ROLES_CLAIM = "roles";
+    private static final String USER_ID_CLAIM = "userId";
 
     private final JwtProperties jwtProperties;
 
@@ -37,7 +40,9 @@ public class JwtTokenProvider {
     }
 
     public String generateToken(Authentication authentication) {
-        String username = authentication.getName();
+        CustomUserDetails customerUserDetails = (CustomUserDetails) authentication.getPrincipal();
+        String username = customerUserDetails.getUsername();
+        Long id = customerUserDetails.getId();
 
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + this.jwtProperties.getExpiration());
@@ -52,6 +57,7 @@ public class JwtTokenProvider {
                 .issuedAt(now)
                 .expiration(expiryDate)
                 .claim(ROLES_CLAIM, roles)
+                .claim(USER_ID_CLAIM, id)
                 .signWith(this.getSigningKey(), Jwts.SIG.HS256)
                 .compact();
     }
@@ -81,6 +87,10 @@ public class JwtTokenProvider {
 
     public String getUsernameFromToken(String token) {
         return this.parseClaims(token).getSubject();
+    }
+
+    public Long getUserIdFromToken(String token) {
+        return this.parseClaims(token).get(USER_ID_CLAIM, Long.class);
     }
 
     public List<String> getRolesFromToken(String token) {
