@@ -1,6 +1,7 @@
 package com.merklys.api.identity.service.impl;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,7 +45,7 @@ public class RoleServiceImpl implements RoleService {
     public RoleResponse create(RoleRequest request) {
         String name = request.name().toUpperCase().trim();
 
-        if (this.roleRepository.existsByNameIgnoreCase(name)) {
+        if (this.roleRepository.existsByName(name)) {
             throw new DuplicateResourceException("Ya existe un rol con el nombre: " + name);
         }
 
@@ -63,7 +64,7 @@ public class RoleServiceImpl implements RoleService {
 
         boolean nameChanged = !existingRole.getName().equalsIgnoreCase(name);
 
-        if (nameChanged && this.roleRepository.existsByNameIgnoreCase(name)) {
+        if (nameChanged && this.roleRepository.existsByName(name)) {
             throw new DuplicateResourceException("Ya existe un rol con el nombre: " + name);
         }
 
@@ -84,6 +85,12 @@ public class RoleServiceImpl implements RoleService {
     private Role findRoleById(Long id) {
         return this.roleRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Rol no encontrado con el id: " + id));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Role> findRolesByIds(Set<Long> ids) {
+        return this.roleRepository.findByIdIn(ids);
     }
 
 }
