@@ -54,6 +54,7 @@ public class UserDetailsServiceImpl implements CustomUserDetailsService {
         return new CustomUserDetails(
                 user.getId(),
                 user.getUsername(),
+                user.getEmail(),
                 user.getPassword(),
                 user.isActive(),
                 user.isAccountNonLocked(),

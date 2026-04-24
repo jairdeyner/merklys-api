@@ -10,16 +10,18 @@ public class CustomUserDetails implements UserDetails {
 
     private final Long id;
     private final String username;
+    private final String email;
     private final String password;
     private final boolean enabled;
     private final boolean accountNonLocked;
     private final Collection<? extends GrantedAuthority> authorities;
 
-    public CustomUserDetails(Long id, String username, String password,
+    public CustomUserDetails(Long id, String username, String email, String password,
             boolean enabled, boolean accountNonLocked,
             Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.username = username;
+        this.email = email;
         this.password = password;
         this.enabled = enabled;
         this.accountNonLocked = accountNonLocked;
@@ -27,7 +29,11 @@ public class CustomUserDetails implements UserDetails {
     }
 
     public Long getId() {
-        return id;
+        return this.id;
+    }
+
+    public String getEmail() {
+        return this.email;
     }
 
     @Override

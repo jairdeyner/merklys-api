@@ -1,9 +1,15 @@
 package com.merklys.api.auth.dto.response;
 
-public record AuthResponse(String tokenType, String accessToken) {
+import java.util.Set;
 
-    public static AuthResponse of(String accessToken) {
-        return new AuthResponse("Bearer", accessToken);
+public record AuthResponse(String tokenType, String accessToken, UserSummaryResponse user) {
+
+    public record UserSummaryResponse(Long id, String username, String email, Set<String> roles) {
+
+    }
+
+    public static AuthResponse of(String accessToken, UserSummaryResponse user) {
+        return new AuthResponse("Bearer", accessToken, user);
     }
 
 }
