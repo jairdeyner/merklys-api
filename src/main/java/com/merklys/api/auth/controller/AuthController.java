@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.merklys.api.auth.dto.request.LoginRequest;
 import com.merklys.api.auth.dto.response.AuthResponse;
+import com.merklys.api.auth.dto.response.UserSummaryResponse;
 import com.merklys.api.auth.service.AuthService;
 
 import jakarta.validation.Valid;
@@ -23,6 +24,11 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest request) {
         return ResponseEntity.status(HttpStatus.OK).body(this.authService.login(request));
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<UserSummaryResponse> me() {
+        return ResponseEntity.status(HttpStatus.OK).body(this.authService.getAuthenticatedUser());
     }
 
 }

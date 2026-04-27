@@ -11,19 +11,24 @@ import org.springframework.stereotype.Service;
 
 import com.merklys.api.auth.dto.request.LoginRequest;
 import com.merklys.api.auth.dto.response.AuthResponse;
+import com.merklys.api.auth.dto.response.UserSummaryResponse;
 import com.merklys.api.auth.jwt.JwtTokenProvider;
 import com.merklys.api.auth.security.CustomUserDetails;
 import com.merklys.api.auth.service.AuthService;
+import com.merklys.api.common.util.SecurityUtils;
 
 @Service
 public class AuthServiceImpl implements AuthService {
 
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
+    private final SecurityUtils securityUtils;
 
-    public AuthServiceImpl(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider) {
+    public AuthServiceImpl(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider,
+            SecurityUtils securityUtils) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenProvider = jwtTokenProvider;
+        this.securityUtils = securityUtils;
     }
 
     @Override
@@ -34,20 +39,32 @@ public class AuthServiceImpl implements AuthService {
         String token = this.jwtTokenProvider.generateToken(authentication);
 
         CustomUserDetails user = (CustomUserDetails) authentication.getPrincipal();
+        UserSummaryResponse userSummary = this.toUserSummary(user);
 
+        return AuthResponse.of(token, userSummary);
+    }
+
+    @Override
+    public UserSummaryResponse getAuthenticatedUser() {
+        CustomUserDetails user = this.securityUtils.getCurrentUser();
+
+        return this.toUserSummary(user);
+    }
+
+    private UserSummaryResponse toUserSummary(CustomUserDetails user) {
         Set<String> roles = user.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .filter(authority -> authority.startsWith("ROLE_"))
                 .map(authority -> authority.substring(5))
                 .collect(Collectors.toSet());
 
-        AuthResponse.UserSummaryResponse userSummary = new AuthResponse.UserSummaryResponse(
+        UserSummaryResponse userSummary = new UserSummaryResponse(
                 user.getId(),
                 user.getUsername(),
                 user.getEmail(),
                 roles);
 
-        return AuthResponse.of(token, userSummary);
+        return userSummary;
     }
 
 }
