@@ -11,6 +11,7 @@ public record ErrorResponse(
         int status,
         String error,
         String message,
+        String code,
         String path,
         List<ValidationError> errors) {
 
@@ -18,11 +19,12 @@ public record ErrorResponse(
     public record ValidationError(String field, String message) {
     }
 
-    public static ErrorResponse of(int status, String error, String message, String path) {
-        return new ErrorResponse(Instant.now(), status, error, message, path, null);
+    public static ErrorResponse of(int status, String error, String message, String code, String path) {
+        return new ErrorResponse(Instant.now(), status, error, message, code, path, null);
     }
 
-    public static ErrorResponse of(int status, String error, String message, String path, List<ValidationError> errors) {
-        return new ErrorResponse(Instant.now(), status, error, message, path, errors);
+    public static ErrorResponse of(int status, String error, String message, String code, String path,
+            List<ValidationError> errors) {
+        return new ErrorResponse(Instant.now(), status, error, message, code, path, errors);
     }
 }

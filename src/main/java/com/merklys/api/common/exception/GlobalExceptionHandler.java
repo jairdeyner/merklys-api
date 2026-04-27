@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
+import com.merklys.api.common.enums.ErrorCode;
 import com.merklys.api.common.response.ErrorResponse;
 import com.merklys.api.common.response.ErrorResponse.ValidationError;
 
@@ -36,6 +37,7 @@ public class GlobalExceptionHandler {
                         HttpStatus.NOT_FOUND.value(),
                         HttpStatus.NOT_FOUND.getReasonPhrase(),
                         ex.getMessage(),
+                        ErrorCode.RESOURCE_NOT_FOUND.name(),
                         request.getRequestURI()));
     }
 
@@ -48,6 +50,7 @@ public class GlobalExceptionHandler {
                         HttpStatus.NOT_FOUND.value(),
                         HttpStatus.NOT_FOUND.getReasonPhrase(),
                         "Recurso no encontrado",
+                        ErrorCode.RESOURCE_NOT_FOUND.name(),
                         request.getRequestURI()));
     }
 
@@ -60,6 +63,7 @@ public class GlobalExceptionHandler {
                         HttpStatus.METHOD_NOT_ALLOWED.value(),
                         HttpStatus.METHOD_NOT_ALLOWED.getReasonPhrase(),
                         "Método " + ex.getMethod() + " no permitido para esta ruta",
+                        ErrorCode.METHOD_NOT_ALLOWED.name(),
                         request.getRequestURI()));
     }
 
@@ -72,6 +76,7 @@ public class GlobalExceptionHandler {
                         HttpStatus.CONFLICT.value(),
                         HttpStatus.CONFLICT.getReasonPhrase(),
                         ex.getMessage(),
+                        ErrorCode.RESOURCE_ALREADY_EXISTS.name(),
                         request.getRequestURI()));
     }
 
@@ -84,6 +89,7 @@ public class GlobalExceptionHandler {
                         HttpStatus.UNAUTHORIZED.value(),
                         HttpStatus.UNAUTHORIZED.getReasonPhrase(),
                         "Credenciales inválidas",
+                        ErrorCode.INVALID_CREDENTIALS.name(),
                         request.getRequestURI()));
     }
 
@@ -96,6 +102,7 @@ public class GlobalExceptionHandler {
                         HttpStatus.FORBIDDEN.value(),
                         HttpStatus.FORBIDDEN.getReasonPhrase(),
                         "Cuenta deshabilitada",
+                        ErrorCode.ACCOUNT_DISABLED.name(),
                         request.getRequestURI()));
     }
 
@@ -108,6 +115,7 @@ public class GlobalExceptionHandler {
                         HttpStatus.FORBIDDEN.value(),
                         HttpStatus.FORBIDDEN.getReasonPhrase(),
                         "Cuenta bloqueada",
+                        ErrorCode.ACCOUNT_LOCKED.name(),
                         request.getRequestURI()));
     }
 
@@ -126,6 +134,7 @@ public class GlobalExceptionHandler {
                         HttpStatus.BAD_REQUEST.value(),
                         HttpStatus.BAD_REQUEST.getReasonPhrase(),
                         "Error de validación",
+                        ErrorCode.VALIDATION_ERROR.name(),
                         request.getRequestURI(),
                         errors));
     }
@@ -144,6 +153,7 @@ public class GlobalExceptionHandler {
                         HttpStatus.BAD_REQUEST.value(),
                         HttpStatus.BAD_REQUEST.getReasonPhrase(),
                         message,
+                        ErrorCode.TYPE_MISMATCH.name(),
                         request.getRequestURI()));
     }
 
@@ -156,6 +166,7 @@ public class GlobalExceptionHandler {
                         HttpStatus.FORBIDDEN.value(),
                         HttpStatus.FORBIDDEN.getReasonPhrase(),
                         "No tienes permisos para acceder a este recurso",
+                        ErrorCode.ACCESS_DENIED.name(),
                         request.getRequestURI()));
     }
 
@@ -168,6 +179,7 @@ public class GlobalExceptionHandler {
                         HttpStatus.UNPROCESSABLE_CONTENT.value(),
                         HttpStatus.UNPROCESSABLE_CONTENT.getReasonPhrase(),
                         ex.getMessage(),
+                        ErrorCode.BUSINESS_RULE_VIOLATION.name(),
                         request.getRequestURI()));
     }
 
@@ -181,6 +193,7 @@ public class GlobalExceptionHandler {
                         HttpStatus.INTERNAL_SERVER_ERROR.value(),
                         HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(),
                         "Error interno del servidor",
+                        ErrorCode.INTERNAL_SERVER_ERROR.name(),
                         request.getRequestURI()));
     }
 }

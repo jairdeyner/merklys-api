@@ -8,6 +8,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
 
+import com.merklys.api.common.enums.ErrorCode;
 import com.merklys.api.common.response.ErrorResponse;
 
 import jakarta.servlet.ServletException;
@@ -36,6 +37,7 @@ public class RestAccessDeniedHandler implements AccessDeniedHandler {
                 HttpStatus.FORBIDDEN.value(),
                 HttpStatus.FORBIDDEN.getReasonPhrase(),
                 "No tienes permisos para acceder a este recurso",
+                ErrorCode.ACCESS_DENIED.name(),
                 request.getRequestURI());
 
         objectMapper.writeValue(response.getOutputStream(), errorResponse);

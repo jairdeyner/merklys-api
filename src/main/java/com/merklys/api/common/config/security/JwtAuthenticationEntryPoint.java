@@ -8,6 +8,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
+import com.merklys.api.common.enums.ErrorCode;
 import com.merklys.api.common.response.ErrorResponse;
 
 import jakarta.servlet.ServletException;
@@ -36,6 +37,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
                 HttpStatus.UNAUTHORIZED.value(),
                 HttpStatus.UNAUTHORIZED.getReasonPhrase(),
                 "Token JWT ausente, inválido o expirado",
+                ErrorCode.UNAUTHORIZED.name(),
                 request.getRequestURI());
 
         objectMapper.writeValue(response.getOutputStream(), errorResponse);
