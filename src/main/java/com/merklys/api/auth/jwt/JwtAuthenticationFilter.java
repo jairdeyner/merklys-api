@@ -82,9 +82,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             UserDetails userDetails = this.customUserDetailsService.loadUserById(userId);
 
             if (!userDetails.isEnabled()) {
-                log.warn("Usuario inactivo intentó autenticarse: {}", userDetails.getUsername());
+                log.warn("Usuario deshabilitado intentó autenticarse: {}", userDetails.getUsername());
                 handlerExceptionResolver.resolveException(request, response, null,
-                        new DisabledException("Cuenta inactiva"));
+                        new DisabledException("Cuenta deshabilitada"));
                 return;
             }
 
