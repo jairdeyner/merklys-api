@@ -12,6 +12,7 @@ public enum ErrorCode {
     VALIDATION_ERROR,
     TYPE_MISMATCH,
     METHOD_NOT_ALLOWED,
+    INVALID_SORT_FIELD,
 
     // Resource
     RESOURCE_NOT_FOUND,

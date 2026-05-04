@@ -139,6 +139,19 @@ public class GlobalExceptionHandler {
                         errors));
     }
 
+    @ExceptionHandler(InvalidSortFieldException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidSortField(InvalidSortFieldException ex,
+            HttpServletRequest request) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(ErrorResponse.of(
+                        HttpStatus.BAD_REQUEST.value(),
+                        HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                        ex.getMessage(),
+                        ErrorCode.INVALID_SORT_FIELD.name(),
+                        request.getRequestURI()));
+    }
+
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<ErrorResponse> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex,
             HttpServletRequest request) {
