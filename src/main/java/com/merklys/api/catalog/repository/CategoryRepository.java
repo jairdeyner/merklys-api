@@ -14,4 +14,13 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
             WHERE c.parent IS NULL
             """)
     List<Category> findRootsWithChildren();
+
+    boolean existsBySlug(String slug);
+
+    boolean existsByNameAndParentId(String name, Long parentId);
+
+    boolean existsBySlugAndIdNot(String slug, Long id);
+
+    boolean existsByNameAndParentIdAndIdNot(String name, Long parentId, Long id);
+
 }
